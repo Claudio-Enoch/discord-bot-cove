@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.coverage
+.coverage.*
+.cache
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+
+# Log Files
+*.log
+1
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# IDE configs
+.idea/
+
+# Environments
+venv
+
+# Environment variables
+.env
+
