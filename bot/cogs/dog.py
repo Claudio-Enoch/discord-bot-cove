@@ -1,3 +1,5 @@
+import discord
+
 from discord.ext import commands
 
 from bot import ADMIN_ID
@@ -10,18 +12,18 @@ class DogCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+
         # await self.bot.process_commands(message)
-        if message.author == self.bot.user:
+        if message.author.bot:
             return
 
-        # Respond with random dog activity
-        response = dog_ai.get_response(message=message.content)
-        await message.channel.send(response)
+        if (self.bot.user in message.mentions) or not message.guild:  # dog mentioned in general chat or DM
+            # Respond with dog AI
+            response = dog_ai.get_response(message=message.content)
+            await message.channel.send(response)
 
-        # Forward DMs from dog to Admin
-        admin = self.bot.get_user(ADMIN_ID)
-        dm_from_not_admin = not message.guild and message.author != admin
-        if admin and dm_from_not_admin:
-            dm = f"{message.author.display_name}: {message.content}"  # {message.embeds[0]}
-            admin_dm = admin.dm_channel or await admin.create_dm()
-            await admin_dm.send(f"{dm}\n\tRESPONSE: {response}")
+            # Forward dog DMs to Admin
+            owner = await self.bot.fetch_user(ADMIN_ID)
+            if isinstance(message.channel, discord.DMChannel):
+                if not message.guild:
+                    await owner.send(f"{message.author.display_name}: {message.content}\n\tRESPONSE: {response}")
